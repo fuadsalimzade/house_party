@@ -86,27 +86,33 @@ export default class SongCard extends Component {
         </ Collapse>
         <Grid container alignItems="center">
           <Grid item align="center" xs={6}>
-            <img src={this.props.image_cover} height="100%" width="100%" />
+            <img src={this.props.song.image_cover} height="100%" width="100%" />
           </Grid>
           <Grid item align="center" xs={6}>
             <Typography component="h5" variant="h5">
-              {this.props.name}
+              {this.props.song.name}
             </Typography>
             <Typography color="textSecondary" variant="subtitle1">
-              {this.props.artists}
+              {this.props.song.artists}
             </Typography>
             <div>
-              <IconButton
-                onClick={() => {
-                  this.props.currently_playing ? this.pauseSong() : this.playSong();
-                }}
-              >
-                {this.props.currently_playing ? <PauseIcon /> : <PlayArrowIcon />}
-              </IconButton>
-              <IconButton onClick={() => this.skipSong()}>
-                {this.props.votes} / {this.props.votes_to_skip}
-                <SkipNextIcon />
-              </IconButton>
+              {(this.props.song.guest_can_pause || this.props.isHost) && (
+                <IconButton
+                  onClick={() => {
+                    if (this.props.song.currently_playing) {
+                      this.pauseSong();
+                    } else {
+                      this.playSong();
+                    }
+                  }}
+                >
+                  {this.props.song.currently_playing ? <PauseIcon /> : <PlayArrowIcon />}
+                </IconButton>
+              )}
+                <IconButton onClick={() => this.skipSong()}>
+                  {this.props.song.votes} / {this.props.song.votes_to_skip}
+                  <SkipNextIcon />
+                </IconButton> 
               <IconButton onClick={() => this.shuffleSong()}>
                 <PlaylistPlayIcon />
               </IconButton>

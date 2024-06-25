@@ -112,6 +112,7 @@ class CurrentSong(APIView):
             song['song_id'] = current_song['item']['id']
             song['votes'] = votes
             song['votes_to_skip'] = queryset[0].votes_to_skip
+            song['guest_can_pause'] = queryset[0].guest_can_pause
 
             artists = ""
             for i, artist in enumerate(current_song['item']['artists']):

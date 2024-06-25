@@ -58819,7 +58819,7 @@ class SongCard extends react.Component {
       align: "center",
       xs: 6
     }, /*#__PURE__*/react_default().createElement("img", {
-      src: this.props.image_cover,
+      src: this.props.song.image_cover,
       height: "100%",
       width: "100%"
     })), /*#__PURE__*/react_default().createElement(Grid_Grid, {
@@ -58829,16 +58829,20 @@ class SongCard extends react.Component {
     }, /*#__PURE__*/react_default().createElement(Typography_Typography, {
       component: "h5",
       variant: "h5"
-    }, this.props.name), /*#__PURE__*/react_default().createElement(Typography_Typography, {
+    }, this.props.song.name), /*#__PURE__*/react_default().createElement(Typography_Typography, {
       color: "textSecondary",
       variant: "subtitle1"
-    }, this.props.artists), /*#__PURE__*/react_default().createElement("div", null, /*#__PURE__*/react_default().createElement(IconButton_IconButton, {
+    }, this.props.song.artists), /*#__PURE__*/react_default().createElement("div", null, (this.props.song.guest_can_pause || this.props.isHost) && /*#__PURE__*/react_default().createElement(IconButton_IconButton, {
       onClick: () => {
-        this.props.currently_playing ? this.pauseSong() : this.playSong();
+        if (this.props.song.currently_playing) {
+          this.pauseSong();
+        } else {
+          this.playSong();
+        }
       }
-    }, this.props.currently_playing ? /*#__PURE__*/react_default().createElement(Pause/* default */.A, null) : /*#__PURE__*/react_default().createElement(PlayArrow/* default */.A, null)), /*#__PURE__*/react_default().createElement(IconButton_IconButton, {
+    }, this.props.song.currently_playing ? /*#__PURE__*/react_default().createElement(Pause/* default */.A, null) : /*#__PURE__*/react_default().createElement(PlayArrow/* default */.A, null)), /*#__PURE__*/react_default().createElement(IconButton_IconButton, {
       onClick: () => this.skipSong()
-    }, this.props.votes, " / ", this.props.votes_to_skip, /*#__PURE__*/react_default().createElement(SkipNext/* default */.A, null)), /*#__PURE__*/react_default().createElement(IconButton_IconButton, {
+    }, this.props.song.votes, " / ", this.props.song.votes_to_skip, /*#__PURE__*/react_default().createElement(SkipNext/* default */.A, null)), /*#__PURE__*/react_default().createElement(IconButton_IconButton, {
       onClick: () => this.shuffleSong()
     }, /*#__PURE__*/react_default().createElement(PlaylistPlay/* default */.A, null))))), /*#__PURE__*/react_default().createElement(LinearProgress_LinearProgress, {
       variant: "determinate",
@@ -58893,10 +58897,12 @@ class Room extends react.Component {
     this.getRoomDetails();
   }
   componentDidMount() {
-    this.interval = setInterval(this.getCurrentSong, 1000);
+    this.song_interval = setInterval(this.getCurrentSong, 1000);
+    this.room_interval = setInterval(this.getRoomDetails, 1000);
   }
   componentWillUnmount() {
-    clearInterval(this.interval);
+    clearInterval(this.song_interval);
+    clearInterval(this.room_interval);
   }
   getCurrentSong() {
     const requestOptions = {
@@ -59119,7 +59125,7 @@ class Room extends react.Component {
       }, /*#__PURE__*/react_default().createElement(Typography_Typography, {
         variant: "h5",
         component: "h5"
-      }, "Room Code: ", this.roomCode)), /*#__PURE__*/react_default().createElement(SongCard, this.state.song), /*#__PURE__*/react_default().createElement(Grid_Grid, {
+      }, "Room Code: ", this.roomCode)), /*#__PURE__*/react_default().createElement(SongCard, this.state), /*#__PURE__*/react_default().createElement(Grid_Grid, {
         item: true,
         xs: 12,
         align: "center"

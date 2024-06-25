@@ -43,12 +43,12 @@ export default class Room extends Component {
         this.getRoomDetails();
     }
     componentDidMount() {
-        this.interval = setInterval(this.getCurrentSong, 1000);
-        
+        this.song_interval = setInterval(this.getCurrentSong, 1000);
+        this.room_interval = setInterval(this.getRoomDetails, 1000);
     }
-
     componentWillUnmount() {
-        clearInterval(this.interval);
+        clearInterval(this.song_interval);
+        clearInterval(this.room_interval);
     }
 
     getCurrentSong() {
@@ -69,7 +69,7 @@ export default class Room extends Component {
             }
         })
         .then((data) => this.setState({
-            song: data
+            song: data,
         }))
     }
 
@@ -280,7 +280,7 @@ export default class Room extends Component {
                                 Room Code: {this.roomCode}
                             </Typography>
                         </Grid>
-                        <SongCard {...this.state.song} />
+                        <SongCard {...this.state} />
                         <Grid item xs={12} align="center">
                             <ButtonGroup variant="contained" >
                                 <Button color="secondary" onClick={this.handleButton}>
